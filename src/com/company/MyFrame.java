@@ -67,7 +67,7 @@ public class MyFrame extends JFrame {
                     myTank.setBufStorona(1);
 
                     //Делаем проверку на возможность передвижения танка
-                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)==true) {
+                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)) {
                         //если оно возможно то вызываем метод передвижения вверх
                         myTank.up();
                     }
@@ -76,7 +76,7 @@ public class MyFrame extends JFrame {
                     //Присваиваем переменной танка 2,она будет сообщать о том что последний раз танк двигался вниз
                     myTank.setBufStorona(2);
                     //Делаем проверку на возможность передвижения танка
-                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)==true) {
+                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)) {
                         //если оно возможно то вызываем метод передвижения вниз
                         myTank.down();
                     }
@@ -85,7 +85,7 @@ public class MyFrame extends JFrame {
                     //Присваиваем переменной танка 3,она будет сообщать о том что последний раз танк двигался вправо
                     myTank.setBufStorona(3);
                     //Делаем проверку на возможность передвижения танка
-                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)==true) {
+                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)) {
                         //если оно возможно то вызываем метод передвижения вправо
                         myTank.right();
                     }
@@ -94,7 +94,7 @@ public class MyFrame extends JFrame {
                     //Присваиваем переменной танка 4,она будет сообщать о том что последний раз танк двигался влево
                     myTank.setBufStorona(4);
                     //Делаем проверку на возможность передвижения танка
-                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)==true) {
+                    if (myTank.stop(myTank.getBufStorona(), MyFrame.this)) {
                         //если оно возможно то вызываем метод передвижения влево
                         myTank.left();
                     }
@@ -107,7 +107,7 @@ public class MyFrame extends JFrame {
                 super.keyTyped(e);
                 if(e.getKeyCode()==KeyEvent.VK_SPACE){
                     //говорим, что если танк перезаряжен, то можно создавать пулю
-                    if (myTank.recharge()==true){
+                    if (myTank.recharge()){
                         //Создаем объектную переменную пули
                         Bullet bullet =null;
                         //В зависимости от того, куда ехал танк в последний раз ,создаем пулю с соответствующей стороны танка.Иначе не получается так как перерисовка у пули(
@@ -131,7 +131,12 @@ public class MyFrame extends JFrame {
                         //добавляем пулю в ArrayList
                         ammunition.add(bullet);
                         //запускаем таймер пули и передаем аргументом нашу главную форму(т.к. нам необходимо проделывать с ней операции удаления пули)
-                        bullet.start(MyFrame.this);
+                        try{
+                            bullet.start(MyFrame.this);
+                        }catch (NullPointerException r){
+                            System.out.println("NullPointerException MyFrame bullet.start(MyFrame.this);");
+                        }
+
                     }
                     //иначе танк перезаряжается
                     else {
@@ -146,13 +151,18 @@ public class MyFrame extends JFrame {
     private void mapCreation(){
         try {
             //Создаем объект источника данных,который считывает информацию побайтово из XML
-            InputStream stream=new FileInputStream("C:\\Users\\HP\\IdeaProjects\\TanksAAA\\xml.xml");
+            InputStream stream=new FileInputStream("C:\\Users\\HP\\IdeaProjects\\TanksAAA1\\xml.xml");
             //Создаем объект который создает и настраивает парсер фабрики SAX а также содержит обработчик событий приходящих из парсера во время обработки XML документа
             СustomizationXML custXML=new СustomizationXML(stream);
             //метод для настройки парсера
-            custXML.parse();
-            //вызываем метод непосредственной отрисовки карты.
-            drawMap(custXML.getMyMap());
+            try {
+                custXML.parse();
+                //вызываем метод непосредственной отрисовки карты.
+                drawMap(custXML.getMyMap());
+            }catch (FileNotFoundException e){
+                System.out.println("FileNotFoundException MyFrame custXML.parse(); or drawMap(custXML.getMyMap());");
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }catch (IOException e) {

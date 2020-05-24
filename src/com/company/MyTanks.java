@@ -26,7 +26,7 @@ public class MyTanks extends Model {
 
     //Конструктор танка.
     public MyTanks() throws IOException {
-        super(ImageIO.read(new File("C:\\Users\\HP\\IdeaProjects\\TanksAAA\\Картинки\\Мой Танк.png")));
+        super(ImageIO.read(new File("C:\\Users\\HP\\IdeaProjects\\TanksAAA1\\Картинки\\Мой Танк.png")));
         this.setBackground(Color.BLUE);
         this.setSize(SIZE, SIZE);
         super.setSIZE(this.SIZE);
