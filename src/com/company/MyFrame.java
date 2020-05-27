@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class MyFrame extends JFrame {
     private ArrayList<Blocks> map;
     //Объектная переменная танка пользователя
     private MyTanks myTank;
+    private String nameXML;
 
     public ArrayList<Blocks> getMap() {
         return map;
@@ -32,14 +35,15 @@ public class MyFrame extends JFrame {
     }
 
     //конструктор главной формы
-    public MyFrame () throws IOException {
+    public MyFrame (String nameXML) throws IOException {
         super();
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(WIDTH,HEIGHT);
         setLocationRelativeTo(null);
         setResizable(false);
         setLayout(null);
         getContentPane().setBackground(Color.BLACK);
+        this.nameXML=nameXML;
         //Создаем ArrayLict для хранения пуль,которые находятся на форме
         ammunition=new ArrayList<>();
         initObjects();
@@ -48,7 +52,6 @@ public class MyFrame extends JFrame {
 
     //Метод для добавления объектов на форму
     public void initObjects() throws IOException {
-        System.out.println(this.getHeight());
         //Вызываем метод для создания карты
         mapCreation();
         //Создаем объект танка пользователя
@@ -100,6 +103,7 @@ public class MyFrame extends JFrame {
                     }
                 }
                 myTank.repaint();
+
             }
             //Переопределяем метод для отпускания клавиши
             @Override
@@ -151,7 +155,7 @@ public class MyFrame extends JFrame {
     private void mapCreation(){
         try {
             //Создаем объект источника данных,который считывает информацию побайтово из XML
-            InputStream stream=new FileInputStream("C:\\Users\\HP\\IdeaProjects\\TanksAAA1\\xml.xml");
+            InputStream stream=new FileInputStream(nameXML);
             //Создаем объект который создает и настраивает парсер фабрики SAX а также содержит обработчик событий приходящих из парсера во время обработки XML документа
             СustomizationXML custXML=new СustomizationXML(stream);
             //метод для настройки парсера
@@ -187,5 +191,14 @@ public class MyFrame extends JFrame {
                 getLayeredPane().add(myMap.get(i),0,0);
             }
         }
+    }
+
+    void close(FrameSelectLevel objFrameSelectLevel){
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                objFrameSelectLevel.setVisible(true);
+            }
+        });
     }
 }

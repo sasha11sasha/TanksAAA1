@@ -9,7 +9,7 @@ public class BrickWall extends Blocks {
     public BrickWall(int myX,int myY) {
         super();
         //Присваиваем необходимую картинку
-        this.setIcon(new ImageIcon("C:\\Users\\HP\\IdeaProjects\\TanksAAA1\\Картинки\\Кирпичная стена.png"));
+        this.setIcon(new ImageIcon("Картинки\\Кирпичная стена.png"));
         //Задаем координаты расположения
         super.setMyX(myX);
         super.setMyY(myY);

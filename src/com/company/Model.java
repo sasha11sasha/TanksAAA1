@@ -73,10 +73,10 @@ public class Model extends JLabel implements Models {
             return stopDown(myFrame);
         }
         if (bufStorona==3){
-            if (this.getX() + this.SIZE >= 450) return false;
+            return stopRight(myFrame);
         }
         if (bufStorona==4){
-            if (this.getX() <= 0) return false;
+            return stopLeft(myFrame);
         }
         return  true;
     }
@@ -87,8 +87,20 @@ public class Model extends JLabel implements Models {
         }
         for (int i = 0; i < myFrame.getMap().size(); i++) {
                 if (myFrame.getMap().get(i).getMyY()<this.getY()+this.getHeight() & myFrame.getMap().get(i).getMyY() + myFrame.getMap().get(i).getHeight() >= this.getY() &
-                        myFrame.getMap().get(i).getMyX()<this.getX()+this.getWidth() & myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()>this.getX()) {
-                    return individualStop(myFrame.getMap().get(i));
+                        myFrame.getMap().get(i).getMyX()<this.getX()+this.getWidth() & myFrame.getMap().get(i).getMyX()+ myFrame.getMap().get(i).getWidth()>this.getX()) {
+                    if (myFrame.getMap().get(i).getIcon()==null){
+                        for (int j = 0; j < myFrame.getMap().size(); j++){
+                            if (myFrame.getMap().get(i).getMyY()==myFrame.getMap().get(j).getMyY()+myFrame.getMap().get(j).getHeight()
+                                    & myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()==myFrame.getMap().get(j).getMyX() & myFrame.getMap().get(j).getIcon()!=null){
+                                if (this.getX()+this.getWidth()>myFrame.getMap().get(j).getMyX() & this.getY()<=myFrame.getMap().get(j).getMyY()+myFrame.getMap().get(j).getHeight()){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        return individualStop(myFrame.getMap().get(i));
+                    }
                 }
             }
         return true;
@@ -101,7 +113,65 @@ public class Model extends JLabel implements Models {
         for (int i = 0; i < myFrame.getMap().size(); i++) {
             if (myFrame.getMap().get(i).getMyY()<=this.getY()+this.getHeight() & myFrame.getMap().get(i).getMyY()+myFrame.getMap().get(i).getHeight()>this.getY() &
                     myFrame.getMap().get(i).getMyX()<this.getX()+this.getWidth() & myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()>this.getX()) {
-                return individualStop(myFrame.getMap().get(i));
+                if (myFrame.getMap().get(i).getIcon()==null){
+                    for (int j = 0; j < myFrame.getMap().size(); j++){
+                        if(myFrame.getMap().get(i).getMyY()+myFrame.getMap().get(i).getHeight()==myFrame.getMap().get(j).getMyY() &
+                                myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()==myFrame.getMap().get(j).getMyX() & myFrame.getMap().get(j).getIcon()!=null){
+                            if (this.getX()+this.getWidth()>myFrame.getMap().get(j).getMyX() & this.getY()+this.getWidth()>=myFrame.getMap().get(j).getMyY()) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else{
+                    return individualStop(myFrame.getMap().get(i));
+                }
+            }
+        }
+        return true;
+    }
+
+    private Boolean stopRight(MyFrame myFrame){
+        if (this.getX() + this.SIZE >= 450) return false;
+        for (int i = 0; i < myFrame.getMap().size(); i++) {
+            if (myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()>this.getX() & myFrame.getMap().get(i).getMyX()<=this.getX()+this.getWidth() &
+                    myFrame.getMap().get(i).getMyY()<this.getY()+this.getHeight() & myFrame.getMap().get(i).getMyY()+myFrame.getMap().get(i).getHeight()>this.getY()) {
+                if (myFrame.getMap().get(i).getIcon()==null){
+                    for (int j = 0; j < myFrame.getMap().size(); j++){
+                        if(myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()==myFrame.getMap().get(j).getMyX() &
+                                myFrame.getMap().get(i).getMyY()+myFrame.getMap().get(i).getHeight()==myFrame.getMap().get(j).getMyY() & myFrame.getMap().get(j).getIcon()!=null){
+                            if (this.getX()+this.getWidth()>=myFrame.getMap().get(j).getMyX() & this.getY()+this.getHeight()>myFrame.getMap().get(j).getMyY()) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else {
+                    return individualStop(myFrame.getMap().get(i));
+                }
+            }
+        }
+        return true;
+    }
+
+    private Boolean stopLeft(MyFrame myFrame){
+        if (this.getX() <= 0) return false;
+        for (int i = 0; i < myFrame.getMap().size(); i++) {
+            if (myFrame.getMap().get(i).getMyX()+myFrame.getMap().get(i).getWidth()>=this.getX() & myFrame.getMap().get(i).getMyX()<this.getX()+this.getWidth() &
+                    myFrame.getMap().get(i).getMyY()<this.getY()+this.getHeight() & myFrame.getMap().get(i).getMyY()+myFrame.getMap().get(i).getHeight()>this.getY()) {
+                if (myFrame.getMap().get(i).getIcon()==null){
+                    for (int j = 0; j < myFrame.getMap().size(); j++){
+                        if(myFrame.getMap().get(i).getMyX()==myFrame.getMap().get(j).getMyX()+myFrame.getMap().get(j).getWidth() &
+                                myFrame.getMap().get(i).getMyY()+myFrame.getMap().get(i).getHeight()==myFrame.getMap().get(j).getMyY() & myFrame.getMap().get(j).getIcon()!=null){
+                            if (this.getX()<=myFrame.getMap().get(j).getMyX()+myFrame.getMap().get(j).getWidth() & this.getY()+this.getHeight()>myFrame.getMap().get(j).getMyY()) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else {
+                    return individualStop(myFrame.getMap().get(i));
+                }
             }
         }
         return true;
@@ -109,9 +179,7 @@ public class Model extends JLabel implements Models {
 
     private Boolean individualStop(Blocks blocks){
         if (blocks.getIcon()==null){
-            if (this.getClass().getName().equals("com.company.MyTanks")) {
                 return true;
-            }
         }
         else{
             if (this.getClass().getName().equals("com.company.Bullet")){
@@ -128,20 +196,22 @@ public class Model extends JLabel implements Models {
     //Метод который вызывается в переопределенных методах paintComponent, отвечает за поворот картинки в нужную сторону при движении
     protected void myPaintComponent(Graphics g,int bufStorona){
         Graphics2D g2d=(Graphics2D)g;
+        //для сглаживания изображения
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //находим центр относительно вращения, на некоторых компьютерах остается смещенным .Дополнительно нужно вычитать 0.1
+        double center=this.SIZE/2.0-0.1;
         if (bufStorona==1){
-            g2d.rotate(4*Math.PI/2);
+            g2d.rotate(4*Math.PI/2,center,center);
         }
-
         if (bufStorona==2){
-            g2d.rotate(Math.PI);
+            g2d.rotate(Math.PI,center,center);
         }
         if (bufStorona==3){
-            g2d.rotate(Math.PI/2);
+            g2d.rotate(Math.PI/2,center,center);
         }
         if (bufStorona==4){
-            g2d.rotate(3*Math.PI/2);
+            g2d.rotate(3*Math.PI/2,center,center);
         }
-        g2d.translate(g2d.getClipBounds().x,g2d.getClipBounds().y);
         g2d.drawImage(icon,0,0,null);
     }
 }

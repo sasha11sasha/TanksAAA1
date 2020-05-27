@@ -26,7 +26,7 @@ public class MyTanks extends Model {
 
     //Конструктор танка.
     public MyTanks() throws IOException {
-        super(ImageIO.read(new File("C:\\Users\\HP\\IdeaProjects\\TanksAAA1\\Картинки\\Мой Танк.png")));
+        super(ImageIO.read(new File("Картинки\\Мой Танк.png")));
         this.setBackground(Color.BLUE);
         this.setSize(SIZE, SIZE);
         super.setSIZE(this.SIZE);
@@ -68,10 +68,10 @@ public class MyTanks extends Model {
             pan.setSize(3,3);
             //Задаем панельке необходимые координаты и добавляем на танк
             pan.setLocation(startX,0);
-            add(pan);
+            add(pan,4,0);
             //Добавляем панельку в ArrayList
             bufPanel.add(pan);
-            //Перерисовываем все область по переиметру танка шириной равной ширине панельки.
+            //Перерисовываем все область по переиметру танка шириной равной ширине панельки. Для экономии производительности
             repaint(0,0,getWidth(),pan.getHeight());
             repaint(getWidth()-pan.getWidth(),0,pan.getWidth(),getHeight());
             repaint(0,getHeight()-pan.getHeight(),getWidth(),pan.getHeight());
